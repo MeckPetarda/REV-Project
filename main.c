@@ -1,9 +1,4 @@
-// REV INTERRUPT
-#pragma config FOSC = HSMP // Oscillator Selection bits (HS oscillator (medium power 4-16 MHz))
-#pragma config PLLCFG = ON // 4X PLL Enable (Oscillator multiplied by 4)
-#pragma config WDTEN = OFF // Watchdog Timer Enable bits (Watch dog timer is  always disabled. SWDTEN has no effect.)
-
-#define _XTAL_FREQ 32E6 // definice fosc pro knihovnu
+#include "config.h"
 /**
     257640
     0:GPIO-Blikani SOS
@@ -25,21 +20,37 @@
 
 #include "sos.h"
 
-void __interrupt(low_priority) T2_ISR_HANDLER(void) {
+void __interrupt(low_priority) LP_ISR_HANDLER(void) {
     buttons_interrupt();
+    
+    if (menuState.activeSubroutine != NULL && menuState.activeSubroutine->lp_interrupt != NULL) {
+        menuState.activeSubroutine->lp_interrupt();
+    }
+    
 }
 
-void test(void) {}
+void __interrupt(high_priority) HP_ISR_HANDLER(void) {
+    if (menuState.activeSubroutine != NULL && menuState.activeSubroutine->hp_interrupt != NULL) {
+        menuState.activeSubroutine->hp_interrupt();
+    }
+}
 
 void init(void) {
+    // OSCCONbits.IRCF = 0b110;
+    // OSCTUNEbits.PLLEN = 1;
+       
+    
+    
+    // while (!OSCCONbits.HFIOFS);
+    
+    PEIE = 1;                       // povoleni preruseni od periferii
+    GIE = 1;                        // globalni povoleni preruseni
+    IPEN = 1;
+    
     buttons_init();
     led_init();
 
-    
     initMenu();
-    
-    registerSubroutine("Menu", &menuSubroutine);
-    confirmSubroutine();
     
     register_sos();
     
@@ -49,9 +60,10 @@ void init(void) {
 void main(void) {
     init();
     
+    
     while (true) {
-        if (menuState.activeSubroutine != NULL) {
-            menuState.activeSubroutine->subroutine();          
-        }
+        // drive_led(button_states.btn4_state);
+        
+        runSubroutine();
     }
 }

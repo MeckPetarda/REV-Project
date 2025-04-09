@@ -5,4 +5,6 @@ void register_sos(void);
 void sos_init();
 void sos_main(void);
 
+static void hp_interrupt();
+
 #endif

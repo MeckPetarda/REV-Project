@@ -1,7 +1,7 @@
-#include <xc.h>
+#include "config.h"
+
 #include <stdio.h>
 #include "lcd.h"
-#define _XTAL_FREQ 32E6
 
 void lcd_init(void){
     
@@ -83,6 +83,8 @@ void lcd_show_string(char lineNum, char textData[])
     
     SSP2CON2bits.PEN = 1;
     while (SSP2CON2bits.PEN);
+    
+    __delay_ms(40);
 }
 
 static void lcd_send(unsigned char data){

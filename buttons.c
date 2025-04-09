@@ -1,4 +1,5 @@
-#include <xc.h>
+#include "config.h"
+
 #include "led.h"
 
 #define BTN1 PORTCbits.RC0
@@ -85,6 +86,8 @@ void buttons_init(void) {
 
   TMR2IE = 1;
   TMR2IF = 0;
+  
+  TMR2IP = 0;
 
   TMR2ON = 1;
   
