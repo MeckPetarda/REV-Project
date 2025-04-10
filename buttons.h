@@ -1,8 +1,6 @@
 #ifndef BUTTONS_H
 #define BUTTONS_H
 
-#include <xc.h>
-
 // Structure to hold button states
 typedef struct {
     char btn1_re;      // Rising edge detection

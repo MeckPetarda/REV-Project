@@ -5,21 +5,21 @@
  * Structure to represent a subroutine with a label and function pointer
  */
 struct Subroutine {
-    char label[15];
-    void (*init_subroutine)(void);
-    void (*subroutine)(void);
-    void (*lp_interrupt)(void);
-    void (*hp_interrupt)(void);
+  char label[15];
+  void (*init_subroutine)(void);
+  void (*subroutine)(void);
+  void (*lp_interrupt)(void);
+  void (*hp_interrupt)(void);
 };
 
 /**
  * Structure to maintain the menu state
  */
 struct SMenuState {
-    int selectedRow;
-    int numberOfRows;
-    int previousSelectedRow;
-    struct Subroutine *activeSubroutine;
+  int selectedRow;
+  int numberOfRows;
+  int previousSelectedRow;
+  struct Subroutine *activeSubroutine;
 };
 
 /**
@@ -46,7 +46,9 @@ void initMenu(void);
  * @param lp_interrupt Function pointer to the low priority interrupt
  * @param hp_interrupt Function pointer to the high priority interrupt
  */
-void registerSubroutine(char label[14], void (*init_subroutine)(void), void (*subroutine)(void), void (*lp_interrupt)(void), void (*hp_interrupt)(void));
+void registerSubroutine(char label[14], void (*init_subroutine)(void),
+                        void (*subroutine)(void), void (*lp_interrupt)(void),
+                        void (*hp_interrupt)(void));
 
 void returnToMenu(void);
 

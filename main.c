@@ -10,60 +10,49 @@
     6:Prehravac hudby ? pwm
 **/
 
-#include <xc.h>
 #include <stdbool.h>
-
 #include "buttons.h"
-#include "led.h"
 #include "lcd.h"
-#include "menu.h"
+#include "led.h"
 
+#include "menu.h"
 #include "sos.h"
 
 void __interrupt(low_priority) LP_ISR_HANDLER(void) {
-    buttons_interrupt();
-    
-    if (menuState.activeSubroutine != NULL && menuState.activeSubroutine->lp_interrupt != NULL) {
-        menuState.activeSubroutine->lp_interrupt();
-    }
-    
+  buttons_interrupt();
+
+  if (menuState.activeSubroutine != NULL &&
+      menuState.activeSubroutine->lp_interrupt != NULL) {
+    menuState.activeSubroutine->lp_interrupt();
+  }
 }
 
 void __interrupt(high_priority) HP_ISR_HANDLER(void) {
-    if (menuState.activeSubroutine != NULL && menuState.activeSubroutine->hp_interrupt != NULL) {
-        menuState.activeSubroutine->hp_interrupt();
-    }
+  if (menuState.activeSubroutine != NULL &&
+      menuState.activeSubroutine->hp_interrupt != NULL) {
+    menuState.activeSubroutine->hp_interrupt();
+  }
 }
 
 void init(void) {
-    // OSCCONbits.IRCF = 0b110;
-    // OSCTUNEbits.PLLEN = 1;
-       
-    
-    
-    // while (!OSCCONbits.HFIOFS);
-    
-    PEIE = 1;                       // povoleni preruseni od periferii
-    GIE = 1;                        // globalni povoleni preruseni
-    IPEN = 1;
-    
-    buttons_init();
-    led_init();
+  PEIE = 1; // povoleni preruseni od periferii
+  GIE = 1;  // globalni povoleni preruseni
+  IPEN = 1;
 
-    initMenu();
-    
-    register_sos();
-    
-    lcd_init();
+  buttons_init();
+  led_init();
+
+  initMenu();
+
+  register_sos();
+
+  lcd_init();
 }
 
 void main(void) {
-    init();
-    
-    
-    while (true) {
-        // drive_led(button_states.btn4_state);
-        
-        runSubroutine();
-    }
+  init();
+
+  while (true) {
+    runSubroutine();
+  }
 }

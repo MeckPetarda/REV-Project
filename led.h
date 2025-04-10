@@ -1,8 +1,6 @@
 #ifndef LEDS_H
 #define LEDS_H
 
-#include <xc.h>
-
 // LED pin definitions
 #define LED1 LATDbits.LATD2
 #define LED2 LATDbits.LATD3
