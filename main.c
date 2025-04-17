@@ -44,6 +44,7 @@ void init(void) {
   initMenu();
 
   register_sos();
+  register_uart();
 
   lcd_init();
 }
