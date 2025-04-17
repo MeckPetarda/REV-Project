@@ -4,7 +4,6 @@
 #include "lcd.h"
 #include "led.h"
 #include "menu.h"
-#include "sos.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -29,13 +28,17 @@ volatile int duration = 1000;
 volatile int index = 0;
 volatile int step = 0;
 
+static void sos_init();
+static void sos_main(void);
+static void hp_interrupt();
+
 void register_sos(void) {
   registerSubroutine("SOS", &sos_init, &sos_main, NULL, &hp_interrupt);
 }
 
 static void hp_interrupt() {
   if (TMR1IE && TMR1IF) {
-    TMR1 = 0xFFFF - 1E3;
+    TMR1 = 0xFFFF - 1000;
 
     // Increment timer count
     if (ms < duration) {
@@ -97,7 +100,6 @@ static void sos_init() {
   step = 0;
 
   lcd_show_string(1, "SOS SOS SOS SOS SOS");
-  __delay_ms(40);
 }
 
 static void sos_main(void) {
@@ -105,7 +107,7 @@ static void sos_main(void) {
     TMR1ON = 0;
     TMR1IF = 0;
     TMR1IE = 0;
-    // drive_led(0b111111);
+    drive_led(0b111111);
     returnToMenu();
   }
 }
