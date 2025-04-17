@@ -11,65 +11,65 @@
 
 #define SUBROUTINE_LIMIT 5
 
-volatile SMenuState menuState;
-Subroutine subroutineEntries[SUBROUTINE_LIMIT]; // Array of actual structures
-volatile Subroutine *subroutines[SUBROUTINE_LIMIT]; // Array of pointers
+volatile int numberOfRows = 0;
+volatile int selectedRow = 0;
+volatile int previousSelectedRow = 0;
+
+volatile struct Subroutine *activeSubroutine;
+
+struct Subroutine subroutines[SUBROUTINE_LIMIT]; // Array of actual structures
 
 void initMenu(void) {
-  menuState.numberOfRows = 0;
-  menuState.selectedRow = 0;
-  menuState.previousSelectedRow = -1;
+  numberOfRows = 0;
+  selectedRow = 0;
+  previousSelectedRow = -1;
 
-  menuState.activeSubroutine = NULL;
+  activeSubroutine = NULL;
 }
 
 void registerSubroutine(char label[14], void (*init_subroutine)(void),
                         void (*subroutine)(void), void (*lp_interrupt)(void),
                         void (*hp_interrupt)(void)) {
-  if (menuState.numberOfRows >= SUBROUTINE_LIMIT)
+  if (numberOfRows >= SUBROUTINE_LIMIT)
     return;
 
   // Directly modify the permanent structure
-  strncpy(subroutineEntries[menuState.numberOfRows].label, label, 14);
-  subroutineEntries[menuState.numberOfRows].label[14] = '\0';
+  strncpy(subroutines[numberOfRows].label, label, 14);
+  subroutines[numberOfRows].label[14] = '\0';
 
-  subroutineEntries[menuState.numberOfRows].init_subroutine = init_subroutine;
-  subroutineEntries[menuState.numberOfRows].subroutine = subroutine;
-  subroutineEntries[menuState.numberOfRows].lp_interrupt = lp_interrupt;
-  subroutineEntries[menuState.numberOfRows].hp_interrupt = hp_interrupt;
+  subroutines[numberOfRows].init_subroutine = init_subroutine;
+  subroutines[numberOfRows].subroutine = subroutine;
+  subroutines[numberOfRows].lp_interrupt = lp_interrupt;
+  subroutines[numberOfRows].hp_interrupt = hp_interrupt;
 
-  // Store pointer to the permanent structure
-  subroutines[menuState.numberOfRows] =
-      &subroutineEntries[menuState.numberOfRows];
-
-  menuState.numberOfRows++;
+  numberOfRows++;
 }
 
 void returnToMenu() {
-  menuState.selectedRow = 0;
-  menuState.previousSelectedRow = -1;
+  selectedRow = 0;
+  previousSelectedRow = -1;
 
-  menuState.activeSubroutine = NULL;
+  activeSubroutine = NULL;
 }
 
 void launchSubroutine(int index) {
-  if (index >= 0 && index < menuState.numberOfRows) {
-    menuState.activeSubroutine = subroutines[index];
-    menuState.activeSubroutine->init_subroutine();
+  if (index >= 0 && index < numberOfRows) {
+    activeSubroutine = &subroutines[index];
+    activeSubroutine->init_subroutine();
   }
 }
 
-void confirmSubroutine(void) { launchSubroutine(menuState.selectedRow); }
+void confirmSubroutine(void) { launchSubroutine(selectedRow); }
 
 void nextRow(void) {
-  if (menuState.selectedRow + 1 < menuState.numberOfRows) {
-    menuState.selectedRow++;
+  if (selectedRow + 1 < numberOfRows) {
+    selectedRow++;
   }
 }
 
 void previousRow(void) {
-  if (menuState.selectedRow - 1 >= 0) {
-    menuState.selectedRow--;
+  if (selectedRow - 1 >= 0) {
+    selectedRow--;
   }
 }
 
@@ -83,39 +83,38 @@ void menuSubroutine(void) {
     confirmSubroutine();
 
   // Only update the display if the selection has changed
-  if (menuState.selectedRow == menuState.previousSelectedRow)
+  if (selectedRow == previousSelectedRow)
     return;
 
   char line1[18] = {0}; // Buffer for first LCD line
   char line2[18] = {0}; // Buffer for second LCD line
 
   // Handle different display scenarios based on number of items and selection
-  if (menuState.numberOfRows == 0) {
+  if (numberOfRows == 0) {
     // No items registered
     snprintf(line1, sizeof(line1), "No menu items");
     line2[0] = '\0'; // Empty string
-  } else if (menuState.numberOfRows == 1) {
+  } else if (numberOfRows == 1) {
     // Only one item
-    snprintf(line1, sizeof(line1), "> %s", subroutines[0]->label);
+    snprintf(line1, sizeof(line1), "> %s", subroutines[0].label);
     line2[0] = '\0'; // Empty string
   } else {
     // Multiple items - determine which to show
-    int topRow = menuState.selectedRow;
+    int topRow = selectedRow;
     // If at last row, show previous item on top
-    if (topRow == menuState.numberOfRows - 1) {
+    if (topRow == numberOfRows - 1) {
       topRow--;
     }
 
     // Format lines with selection indicator
-    snprintf(line1, sizeof(line1), "%c %s",
-             (topRow == menuState.selectedRow ? '>' : ' '),
-             subroutines[topRow]->label);
+    snprintf(line1, sizeof(line1), "%c %s", (topRow == selectedRow ? '>' : ' '),
+             subroutines[topRow].label);
 
     // Only show second line if there's an item to display
-    if (topRow + 1 < menuState.numberOfRows) {
+    if (topRow + 1 < numberOfRows) {
       snprintf(line2, sizeof(line2), "%c %s",
-               (topRow + 1 == menuState.selectedRow ? '>' : ' '),
-               subroutines[topRow + 1]->label);
+               (topRow + 1 == selectedRow ? '>' : ' '),
+               subroutines[topRow + 1].label);
     } else {
       line2[0] = '\0'; // Empty string
     }
@@ -128,17 +127,17 @@ void menuSubroutine(void) {
   lcd_show_string(1, line1);
 
   // Only update second line if we have content or need to clear it
-  if (line2[0] != '\0' || menuState.previousSelectedRow != -1) {
+  if (line2[0] != '\0' || previousSelectedRow != -1) {
     lcd_show_string(2, line2);
   }
 
-  menuState.previousSelectedRow = menuState.selectedRow;
+  previousSelectedRow = selectedRow;
 }
 
 void runSubroutine(void) {
-  if (menuState.activeSubroutine == NULL) {
+  if (activeSubroutine == NULL) {
     menuSubroutine();
   } else {
-    menuState.activeSubroutine->subroutine();
+    activeSubroutine->subroutine();
   }
 }

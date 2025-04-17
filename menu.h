@@ -12,27 +12,7 @@ struct Subroutine {
   void (*hp_interrupt)(void);
 };
 
-/**
- * Structure to maintain the menu state
- */
-struct SMenuState {
-  int selectedRow;
-  int numberOfRows;
-  int previousSelectedRow;
-  struct Subroutine *activeSubroutine;
-};
-
-/**
- * Define types for the structures
- */
-typedef struct Subroutine Subroutine;
-typedef struct SMenuState SMenuState;
-
-/**
- * External declarations for global variables
- */
-extern volatile SMenuState menuState;
-extern volatile Subroutine *subroutines[];
+volatile struct Subroutine *activeSubroutine;
 
 /**
  * Initialize the menu state

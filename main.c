@@ -10,27 +10,26 @@
     6:Prehravac hudby ? pwm
 **/
 
-#include <stdbool.h>
 #include "buttons.h"
 #include "lcd.h"
 #include "led.h"
+#include <stdbool.h>
 
 #include "menu.h"
 #include "sos.h"
+#include "uart.h"
 
 void __interrupt(low_priority) LP_ISR_HANDLER(void) {
   buttons_interrupt();
 
-  if (menuState.activeSubroutine != NULL &&
-      menuState.activeSubroutine->lp_interrupt != NULL) {
-    menuState.activeSubroutine->lp_interrupt();
+  if (activeSubroutine != NULL && activeSubroutine->lp_interrupt != NULL) {
+    activeSubroutine->lp_interrupt();
   }
 }
 
 void __interrupt(high_priority) HP_ISR_HANDLER(void) {
-  if (menuState.activeSubroutine != NULL &&
-      menuState.activeSubroutine->hp_interrupt != NULL) {
-    menuState.activeSubroutine->hp_interrupt();
+  if (activeSubroutine != NULL && activeSubroutine->hp_interrupt != NULL) {
+    activeSubroutine->hp_interrupt();
   }
 }
 
