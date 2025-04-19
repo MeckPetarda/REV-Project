@@ -37,6 +37,7 @@
         <itemPath>src/programs/uart.c</itemPath>
         <itemPath>src/programs/template.c</itemPath>
         <itemPath>src/programs/pwm_led.c</itemPath>
+        <itemPath>src/programs/pot.c</itemPath>
       </logicalFolder>
       <itemPath>src/main.c</itemPath>
       <itemPath>src/menu.c</itemPath>
@@ -184,6 +185,7 @@
         <property key="event.recorder.debugger.behavior" value="Running"/>
         <property key="event.recorder.enabled" value="false"/>
         <property key="event.recorder.scvd.files" value=""/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>

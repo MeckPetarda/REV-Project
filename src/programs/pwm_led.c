@@ -7,8 +7,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-// 16 prescaler
-// //                                    CCPR1L CCP1CON<5:4>
+//                                       CCPR1L CCP1CON<5:4>
 // DC = 0     x = 0   = 0b00 0000 0000 -> 0x00      0b00
 // DC = 0.25  x = 200 = 0b00 1100 1000 -> 0x32      0b00
 // DC = 0.5   x = 400 = 0b01 1001 0000 -> 0x64      0b00
@@ -29,12 +28,7 @@ static void update_screen() {
   lcd_show_string(1, line1, false);
 }
 
-static void hp_interrupt() {}
-
-static void lp_interrupt() {}
-
 static void init() {
-
   set_number_of_lines(DOUBLE_HEIGHT);
 
   index = 0;
@@ -53,10 +47,12 @@ static void init() {
   CCPTMRS0bits.C1TSEL = 0b01; // Timer 4
   PR4 = 199;                  // f = 10kHz
   T4CONbits.T4CKPS = 0b10;    // 1:4 Prescaler
-  TMR4IF = 0;                 // nastavi se az pretece timer
-  TMR4ON = 1;                 // staci zapnout defaultne je nastaven jak chceme
-  while (!TMR4IF) {
-  }; // cekam az jednou pretece
+  TMR4ON = 1;
+
+  // Wait for te timer to overflow once
+  TMR4IF = 0;
+  while (!TMR4IF)
+    ;
 
   TRISDbits.RD6 = 0; // nastavim jako vystup pin P1B
 
@@ -89,6 +85,5 @@ static void main(void) {
 }
 
 void register_pwm_led(void) {
-  registerProgram("PWM LED", &init, &destructor, &main, &lp_interrupt,
-                  &hp_interrupt);
+  registerProgram("PWM LED", &init, &destructor, &main, NULL, NULL);
 }

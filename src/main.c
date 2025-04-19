@@ -16,9 +16,10 @@
 #include <stdbool.h>
 
 #include "menu.h"
+#include "programs/pot.h"
+#include "programs/pwm_led.h"
 #include "programs/sos.h"
 #include "programs/uart.h"
-#include "programs/pwm_led.h"
 
 void __interrupt(low_priority) LP_ISR_HANDLER(void) {
   buttons_interrupt();
@@ -47,6 +48,7 @@ void init(void) {
   register_sos();
   register_uart();
   register_pwm_led();
+  register_pot();
 
   lcd_init();
 }

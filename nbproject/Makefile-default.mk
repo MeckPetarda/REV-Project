@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=src/programs/sos.c src/programs/uart.c src/programs/template.c src/per/led.c src/per/lcd.c src/per/buttons.c src/main.c src/menu.c src/programs/pwm_led.c
+SOURCEFILES_QUOTED_IF_SPACED=src/per/led.c src/per/lcd.c src/per/buttons.c src/programs/sos.c src/programs/uart.c src/programs/template.c src/programs/pwm_led.c src/main.c src/menu.c src/programs/pot.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/src/programs/sos.p1 ${OBJECTDIR}/src/programs/uart.p1 ${OBJECTDIR}/src/programs/template.p1 ${OBJECTDIR}/src/per/led.p1 ${OBJECTDIR}/src/per/lcd.p1 ${OBJECTDIR}/src/per/buttons.p1 ${OBJECTDIR}/src/main.p1 ${OBJECTDIR}/src/menu.p1 ${OBJECTDIR}/src/programs/pwm_led.p1
-POSSIBLE_DEPFILES=${OBJECTDIR}/src/programs/sos.p1.d ${OBJECTDIR}/src/programs/uart.p1.d ${OBJECTDIR}/src/programs/template.p1.d ${OBJECTDIR}/src/per/led.p1.d ${OBJECTDIR}/src/per/lcd.p1.d ${OBJECTDIR}/src/per/buttons.p1.d ${OBJECTDIR}/src/main.p1.d ${OBJECTDIR}/src/menu.p1.d ${OBJECTDIR}/src/programs/pwm_led.p1.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/src/per/led.p1 ${OBJECTDIR}/src/per/lcd.p1 ${OBJECTDIR}/src/per/buttons.p1 ${OBJECTDIR}/src/programs/sos.p1 ${OBJECTDIR}/src/programs/uart.p1 ${OBJECTDIR}/src/programs/template.p1 ${OBJECTDIR}/src/programs/pwm_led.p1 ${OBJECTDIR}/src/main.p1 ${OBJECTDIR}/src/menu.p1 ${OBJECTDIR}/src/programs/pot.p1
+POSSIBLE_DEPFILES=${OBJECTDIR}/src/per/led.p1.d ${OBJECTDIR}/src/per/lcd.p1.d ${OBJECTDIR}/src/per/buttons.p1.d ${OBJECTDIR}/src/programs/sos.p1.d ${OBJECTDIR}/src/programs/uart.p1.d ${OBJECTDIR}/src/programs/template.p1.d ${OBJECTDIR}/src/programs/pwm_led.p1.d ${OBJECTDIR}/src/main.p1.d ${OBJECTDIR}/src/menu.p1.d ${OBJECTDIR}/src/programs/pot.p1.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/src/programs/sos.p1 ${OBJECTDIR}/src/programs/uart.p1 ${OBJECTDIR}/src/programs/template.p1 ${OBJECTDIR}/src/per/led.p1 ${OBJECTDIR}/src/per/lcd.p1 ${OBJECTDIR}/src/per/buttons.p1 ${OBJECTDIR}/src/main.p1 ${OBJECTDIR}/src/menu.p1 ${OBJECTDIR}/src/programs/pwm_led.p1
+OBJECTFILES=${OBJECTDIR}/src/per/led.p1 ${OBJECTDIR}/src/per/lcd.p1 ${OBJECTDIR}/src/per/buttons.p1 ${OBJECTDIR}/src/programs/sos.p1 ${OBJECTDIR}/src/programs/uart.p1 ${OBJECTDIR}/src/programs/template.p1 ${OBJECTDIR}/src/programs/pwm_led.p1 ${OBJECTDIR}/src/main.p1 ${OBJECTDIR}/src/menu.p1 ${OBJECTDIR}/src/programs/pot.p1
 
 # Source Files
-SOURCEFILES=src/programs/sos.c src/programs/uart.c src/programs/template.c src/per/led.c src/per/lcd.c src/per/buttons.c src/main.c src/menu.c src/programs/pwm_led.c
+SOURCEFILES=src/per/led.c src/per/lcd.c src/per/buttons.c src/programs/sos.c src/programs/uart.c src/programs/template.c src/programs/pwm_led.c src/main.c src/menu.c src/programs/pot.c
 
 
 
@@ -88,30 +88,6 @@ MP_PROCESSOR_OPTION=18F46K22
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/src/programs/sos.p1: src/programs/sos.c  nbproject/Makefile-${CND_CONF}.mk 
-	@${MKDIR} "${OBJECTDIR}/src/programs" 
-	@${RM} ${OBJECTDIR}/src/programs/sos.p1.d 
-	@${RM} ${OBJECTDIR}/src/programs/sos.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=pickit3   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/sos.p1 src/programs/sos.c 
-	@-${MV} ${OBJECTDIR}/src/programs/sos.d ${OBJECTDIR}/src/programs/sos.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/src/programs/sos.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
-	
-${OBJECTDIR}/src/programs/uart.p1: src/programs/uart.c  nbproject/Makefile-${CND_CONF}.mk 
-	@${MKDIR} "${OBJECTDIR}/src/programs" 
-	@${RM} ${OBJECTDIR}/src/programs/uart.p1.d 
-	@${RM} ${OBJECTDIR}/src/programs/uart.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=pickit3   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/uart.p1 src/programs/uart.c 
-	@-${MV} ${OBJECTDIR}/src/programs/uart.d ${OBJECTDIR}/src/programs/uart.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/src/programs/uart.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
-	
-${OBJECTDIR}/src/programs/template.p1: src/programs/template.c  nbproject/Makefile-${CND_CONF}.mk 
-	@${MKDIR} "${OBJECTDIR}/src/programs" 
-	@${RM} ${OBJECTDIR}/src/programs/template.p1.d 
-	@${RM} ${OBJECTDIR}/src/programs/template.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=pickit3   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/template.p1 src/programs/template.c 
-	@-${MV} ${OBJECTDIR}/src/programs/template.d ${OBJECTDIR}/src/programs/template.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/src/programs/template.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
-	
 ${OBJECTDIR}/src/per/led.p1: src/per/led.c  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}/src/per" 
 	@${RM} ${OBJECTDIR}/src/per/led.p1.d 
@@ -136,6 +112,38 @@ ${OBJECTDIR}/src/per/buttons.p1: src/per/buttons.c  nbproject/Makefile-${CND_CON
 	@-${MV} ${OBJECTDIR}/src/per/buttons.d ${OBJECTDIR}/src/per/buttons.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/src/per/buttons.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
+${OBJECTDIR}/src/programs/sos.p1: src/programs/sos.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}/src/programs" 
+	@${RM} ${OBJECTDIR}/src/programs/sos.p1.d 
+	@${RM} ${OBJECTDIR}/src/programs/sos.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=pickit3   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/sos.p1 src/programs/sos.c 
+	@-${MV} ${OBJECTDIR}/src/programs/sos.d ${OBJECTDIR}/src/programs/sos.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/programs/sos.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/src/programs/uart.p1: src/programs/uart.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}/src/programs" 
+	@${RM} ${OBJECTDIR}/src/programs/uart.p1.d 
+	@${RM} ${OBJECTDIR}/src/programs/uart.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=pickit3   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/uart.p1 src/programs/uart.c 
+	@-${MV} ${OBJECTDIR}/src/programs/uart.d ${OBJECTDIR}/src/programs/uart.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/programs/uart.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/src/programs/template.p1: src/programs/template.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}/src/programs" 
+	@${RM} ${OBJECTDIR}/src/programs/template.p1.d 
+	@${RM} ${OBJECTDIR}/src/programs/template.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=pickit3   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/template.p1 src/programs/template.c 
+	@-${MV} ${OBJECTDIR}/src/programs/template.d ${OBJECTDIR}/src/programs/template.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/programs/template.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/src/programs/pwm_led.p1: src/programs/pwm_led.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}/src/programs" 
+	@${RM} ${OBJECTDIR}/src/programs/pwm_led.p1.d 
+	@${RM} ${OBJECTDIR}/src/programs/pwm_led.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=pickit3   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/pwm_led.p1 src/programs/pwm_led.c 
+	@-${MV} ${OBJECTDIR}/src/programs/pwm_led.d ${OBJECTDIR}/src/programs/pwm_led.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/programs/pwm_led.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
 ${OBJECTDIR}/src/main.p1: src/main.c  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/main.p1.d 
@@ -152,39 +160,15 @@ ${OBJECTDIR}/src/menu.p1: src/menu.c  nbproject/Makefile-${CND_CONF}.mk
 	@-${MV} ${OBJECTDIR}/src/menu.d ${OBJECTDIR}/src/menu.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/src/menu.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
-${OBJECTDIR}/src/programs/pwm_led.p1: src/programs/pwm_led.c  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/src/programs/pot.p1: src/programs/pot.c  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}/src/programs" 
-	@${RM} ${OBJECTDIR}/src/programs/pwm_led.p1.d 
-	@${RM} ${OBJECTDIR}/src/programs/pwm_led.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=pickit3   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/pwm_led.p1 src/programs/pwm_led.c 
-	@-${MV} ${OBJECTDIR}/src/programs/pwm_led.d ${OBJECTDIR}/src/programs/pwm_led.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/src/programs/pwm_led.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	@${RM} ${OBJECTDIR}/src/programs/pot.p1.d 
+	@${RM} ${OBJECTDIR}/src/programs/pot.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c  -D__DEBUG=1  -mdebugger=pickit3   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/pot.p1 src/programs/pot.c 
+	@-${MV} ${OBJECTDIR}/src/programs/pot.d ${OBJECTDIR}/src/programs/pot.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/programs/pot.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
 else
-${OBJECTDIR}/src/programs/sos.p1: src/programs/sos.c  nbproject/Makefile-${CND_CONF}.mk 
-	@${MKDIR} "${OBJECTDIR}/src/programs" 
-	@${RM} ${OBJECTDIR}/src/programs/sos.p1.d 
-	@${RM} ${OBJECTDIR}/src/programs/sos.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/sos.p1 src/programs/sos.c 
-	@-${MV} ${OBJECTDIR}/src/programs/sos.d ${OBJECTDIR}/src/programs/sos.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/src/programs/sos.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
-	
-${OBJECTDIR}/src/programs/uart.p1: src/programs/uart.c  nbproject/Makefile-${CND_CONF}.mk 
-	@${MKDIR} "${OBJECTDIR}/src/programs" 
-	@${RM} ${OBJECTDIR}/src/programs/uart.p1.d 
-	@${RM} ${OBJECTDIR}/src/programs/uart.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/uart.p1 src/programs/uart.c 
-	@-${MV} ${OBJECTDIR}/src/programs/uart.d ${OBJECTDIR}/src/programs/uart.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/src/programs/uart.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
-	
-${OBJECTDIR}/src/programs/template.p1: src/programs/template.c  nbproject/Makefile-${CND_CONF}.mk 
-	@${MKDIR} "${OBJECTDIR}/src/programs" 
-	@${RM} ${OBJECTDIR}/src/programs/template.p1.d 
-	@${RM} ${OBJECTDIR}/src/programs/template.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/template.p1 src/programs/template.c 
-	@-${MV} ${OBJECTDIR}/src/programs/template.d ${OBJECTDIR}/src/programs/template.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/src/programs/template.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
-	
 ${OBJECTDIR}/src/per/led.p1: src/per/led.c  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}/src/per" 
 	@${RM} ${OBJECTDIR}/src/per/led.p1.d 
@@ -209,6 +193,38 @@ ${OBJECTDIR}/src/per/buttons.p1: src/per/buttons.c  nbproject/Makefile-${CND_CON
 	@-${MV} ${OBJECTDIR}/src/per/buttons.d ${OBJECTDIR}/src/per/buttons.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/src/per/buttons.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
+${OBJECTDIR}/src/programs/sos.p1: src/programs/sos.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}/src/programs" 
+	@${RM} ${OBJECTDIR}/src/programs/sos.p1.d 
+	@${RM} ${OBJECTDIR}/src/programs/sos.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/sos.p1 src/programs/sos.c 
+	@-${MV} ${OBJECTDIR}/src/programs/sos.d ${OBJECTDIR}/src/programs/sos.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/programs/sos.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/src/programs/uart.p1: src/programs/uart.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}/src/programs" 
+	@${RM} ${OBJECTDIR}/src/programs/uart.p1.d 
+	@${RM} ${OBJECTDIR}/src/programs/uart.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/uart.p1 src/programs/uart.c 
+	@-${MV} ${OBJECTDIR}/src/programs/uart.d ${OBJECTDIR}/src/programs/uart.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/programs/uart.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/src/programs/template.p1: src/programs/template.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}/src/programs" 
+	@${RM} ${OBJECTDIR}/src/programs/template.p1.d 
+	@${RM} ${OBJECTDIR}/src/programs/template.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/template.p1 src/programs/template.c 
+	@-${MV} ${OBJECTDIR}/src/programs/template.d ${OBJECTDIR}/src/programs/template.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/programs/template.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
+${OBJECTDIR}/src/programs/pwm_led.p1: src/programs/pwm_led.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}/src/programs" 
+	@${RM} ${OBJECTDIR}/src/programs/pwm_led.p1.d 
+	@${RM} ${OBJECTDIR}/src/programs/pwm_led.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/pwm_led.p1 src/programs/pwm_led.c 
+	@-${MV} ${OBJECTDIR}/src/programs/pwm_led.d ${OBJECTDIR}/src/programs/pwm_led.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/programs/pwm_led.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	
 ${OBJECTDIR}/src/main.p1: src/main.c  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}/src" 
 	@${RM} ${OBJECTDIR}/src/main.p1.d 
@@ -225,13 +241,13 @@ ${OBJECTDIR}/src/menu.p1: src/menu.c  nbproject/Makefile-${CND_CONF}.mk
 	@-${MV} ${OBJECTDIR}/src/menu.d ${OBJECTDIR}/src/menu.p1.d 
 	@${FIXDEPS} ${OBJECTDIR}/src/menu.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
-${OBJECTDIR}/src/programs/pwm_led.p1: src/programs/pwm_led.c  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/src/programs/pot.p1: src/programs/pot.c  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}/src/programs" 
-	@${RM} ${OBJECTDIR}/src/programs/pwm_led.p1.d 
-	@${RM} ${OBJECTDIR}/src/programs/pwm_led.p1 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/pwm_led.p1 src/programs/pwm_led.c 
-	@-${MV} ${OBJECTDIR}/src/programs/pwm_led.d ${OBJECTDIR}/src/programs/pwm_led.p1.d 
-	@${FIXDEPS} ${OBJECTDIR}/src/programs/pwm_led.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
+	@${RM} ${OBJECTDIR}/src/programs/pot.p1.d 
+	@${RM} ${OBJECTDIR}/src/programs/pot.p1 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -mcpu=$(MP_PROCESSOR_OPTION) -c   -mdfp="${DFP_DIR}/xc8"  -fno-short-double -fno-short-float -memi=wordwrite -O0 -fasmfile -maddrqual=ignore -xassembler-with-cpp -mwarn=-3 -Wa,-a -DXPRJ_default=$(CND_CONF)  -msummary=-psect,-class,+mem,-hex,-file  -ginhx32 -Wl,--data-init -mno-keep-startup -mno-download -mno-default-config-bits $(COMPARISON_BUILD)  -std=c99 -gdwarf-3 -mstack=reentrant:auto:auto:auto     -o ${OBJECTDIR}/src/programs/pot.p1 src/programs/pot.c 
+	@-${MV} ${OBJECTDIR}/src/programs/pot.d ${OBJECTDIR}/src/programs/pot.p1.d 
+	@${FIXDEPS} ${OBJECTDIR}/src/programs/pot.p1.d $(SILENT) -rsi ${MP_CC_DIR}../  
 	
 endif
 
