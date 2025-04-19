@@ -10,9 +10,9 @@
     6:Prehravac hudby ? pwm
 **/
 
-#include "buttons.h"
-#include "lcd.h"
-#include "led.h"
+#include "./per/buttons.h"
+#include "./per/lcd.h"
+#include "./per/led.h"
 #include <stdbool.h>
 
 #include "menu.h"

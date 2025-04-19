@@ -4,13 +4,15 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>buttons.h</itemPath>
-      <itemPath>led.h</itemPath>
-      <itemPath>lcd.h</itemPath>
-      <itemPath>menu.h</itemPath>
-      <itemPath>config.h</itemPath>
-      <itemPath>programs/sos.h</itemPath>
-      <itemPath>programs/uart.h</itemPath>
+      <logicalFolder name="per" displayName="per" projectFiles="true">
+      </logicalFolder>
+      <logicalFolder name="programs" displayName="programs" projectFiles="true">
+        <itemPath>src/programs/uart.h</itemPath>
+        <itemPath>src/programs/template.h</itemPath>
+        <itemPath>src/programs/sos.h</itemPath>
+      </logicalFolder>
+      <itemPath>src/config.h</itemPath>
+      <itemPath>src/menu.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -24,17 +26,24 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>main.c</itemPath>
-      <itemPath>buttons.c</itemPath>
-      <itemPath>led.c</itemPath>
-      <itemPath>lcd.c</itemPath>
-      <itemPath>menu.c</itemPath>
-      <itemPath>programs/sos.c</itemPath>
-      <itemPath>programs/uart.c</itemPath>
+      <logicalFolder name="per" displayName="per" projectFiles="true">
+        <itemPath>src/per/led.c</itemPath>
+        <itemPath>src/per/lcd.c</itemPath>
+        <itemPath>src/per/buttons.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="programs" displayName="programs" projectFiles="true">
+        <itemPath>src/programs/sos.c</itemPath>
+        <itemPath>src/programs/uart.c</itemPath>
+        <itemPath>src/programs/template.c</itemPath>
+      </logicalFolder>
+      <itemPath>src/main.c</itemPath>
+      <itemPath>src/menu.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
     <Elem>programs</Elem>
+    <Elem>per</Elem>
+    <Elem>src</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

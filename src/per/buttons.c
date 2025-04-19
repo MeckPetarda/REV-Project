@@ -1,4 +1,4 @@
-#include "config.h"
+#include "../config.h"
 
 #define BTN1 PORTCbits.RC0
 #define BTN2 PORTAbits.RA4

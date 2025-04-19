@@ -10,6 +10,8 @@
             <make-dep-projects/>
             <sourceRootList>
                 <sourceRootElem>programs</sourceRootElem>
+                <sourceRootElem>per</sourceRootElem>
+                <sourceRootElem>src</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
