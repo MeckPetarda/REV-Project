@@ -69,6 +69,8 @@ static void hp_interrupt() {
 }
 
 static void init() {
+  set_number_of_lines(DOUBLE_HEIGHT);
+
   T1CONbits.TMR1CS = 0b00; // zdroj casovace Fosc/4
   T1CONbits.T1CKPS = 0b11; // 1:16
   TMR1 = 0;
@@ -79,10 +81,12 @@ static void init() {
   index = 0;
   step = 0;
 
-  lcd_show_string(1, "SOS SOS SOS SOS SOS", false);
+  lcd_show_string(1, "SOS             ", false);
 }
 
 static void destructor(void) {
+  set_number_of_lines(TWO_ROWS);
+
   TMR1ON = 0;
   TMR1IF = 0;
   TMR1IE = 0;

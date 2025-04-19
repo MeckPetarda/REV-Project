@@ -47,7 +47,6 @@ void registerProgram(char label[14], void (*init)(void),
 }
 
 void returnToMenu() {
-  selectedRow = 0;
   previousSelectedRow = -1;
 
   if (activeProgram != NULL && activeProgram->destructor != NULL) {
