@@ -91,7 +91,7 @@ void menuSubroutine(void) {
 
   // Handle different display scenarios based on number of items and selection
   if (numberOfRows == 0) {
-    // No items registered
+    // No items registeredg
     snprintf(line1, sizeof(line1), "No menu items");
     line2[0] = '\0'; // Empty string
   } else if (numberOfRows == 1) {
@@ -124,11 +124,11 @@ void menuSubroutine(void) {
   line2[17] = '\0';
 
   // Update the display
-  lcd_show_string(1, line1);
+  lcd_show_string(1, line1, false);
 
   // Only update second line if we have content or need to clear it
   if (line2[0] != '\0' || previousSelectedRow != -1) {
-    lcd_show_string(2, line2);
+    lcd_show_string(2, line2, false);
   }
 
   previousSelectedRow = selectedRow;

@@ -7,11 +7,18 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+enum Mode { CURSOR, SCROLL };
+
+volatile enum Mode mode = SCROLL;
+volatile bool cmdMode = false;
+
 char msg[64];
+volatile int cursor_index = 0;
 volatile int head_index = 0;
 volatile int uart_index = 0;
 
 static void uart_init();
+static void awaitCommand();
 static void uart_main(void);
 static void lp_interrupt();
 static void hp_interrupt();
@@ -28,8 +35,9 @@ static void slice_str(const char *str, char *buffer, size_t start, size_t end) {
   size_t j = 0;
   for (size_t i = start; i <= end; ++i) {
     buffer[j++] = str[i];
-    
-    if (str[i] == '\0') return;
+
+    if (str[i] == '\0')
+      return;
   }
   buffer[j] = 0;
 }
@@ -39,20 +47,40 @@ void update_screen() {
 
   slice_str(msg, line1, head_index, head_index + DISPLAY_LENGTH - 1);
 
-  lcd_show_string(1, line1);
-
   char line2[17] = {0};
-  snprintf(line2, sizeof(line2), "UART  <%c%c> Cl Bk",
-           '0' + (char)((head_index - head_index % 10) / 10),
-           '0' + (char)(head_index % 10));
-  lcd_show_string(2, line2);
+
+  int used_index;
+
+  if (mode == CURSOR) {
+    used_index = cursor_index;
+  } else if (mode == SCROLL) {
+    used_index = head_index;
+  }
+
+  if (cmdMode == true) {
+    snprintf(line2, sizeof(line2), "CMD  Ms Cl    Cl");
+  } else {
+    snprintf(line2, sizeof(line2), "%s <%c%c> Cm Bk",
+             mode == CURSOR ? "CURSR" : "SCRLL",
+             '0' + (char)((used_index - used_index % 10) / 10),
+             '0' + (char)(used_index % 10));
+  }
+  lcd_show_string(2, line2, false);
+
+  lcd_show_string(1, line1, true);
+  set_cursor_position(1, (unsigned int)cursor_index);
 }
 
 static void clear_string() {
   uart_index = 0;
   head_index = 0;
+  cursor_index = 0;
   msg[0] = '\0';
-  
+
+  awaitCommand();
+
+  lcd_show_string(1, "                ", false);
+
   update_screen();
 }
 
@@ -92,7 +120,9 @@ void awaitCommand(void) { printf("\nUART > "); }
 static void uart_init() {
   uart_index = 0;
   head_index = 0;
+  cursor_index = 0;
   msg[0] = '\0';
+  mode = SCROLL;
 
   // TRISD = 0x00;           // PORTD jako vystup
   TRISCbits.TRISC6 = 1; // TX pin jako vstup
@@ -113,35 +143,84 @@ static void uart_init() {
   TXSTA1bits.TXEN = 1; // Transmit Enable bit
   RCSTA1bits.CREN = 1; // Continuous Receive Enable bit
 
-  lcd_show_string(1, "                ");
+  lcd_show_string(1, "                ", false);
   update_screen();
 
   awaitCommand();
 }
 
 static void uart_main(void) {
-  if (button_states.btn1_re) {
-    if (head_index != 0) {
-      head_index--;
+  // Cmd key is pressed
+  if (cmdMode == false && button_states.btn3_re) {
+    cmdMode = true;
+    update_screen();
+  } else if (cmdMode == true && button_states.btn3_fe) {
+    cmdMode = false;
+    update_screen();
+  }
+
+  if (cmdMode == true) {
+    if (button_states.btn1_re) {
+      if (mode == CURSOR) {
+        mode = SCROLL;
+        hide_cursor();
+      } else if (mode == SCROLL) {
+        mode = CURSOR;
+        cursor_index = 0;
+        show_cursor();
+      }
+      cmdMode = false;
+      update_screen();
+    } else if (button_states.btn2_re) {
+      clear_string();
+
+      cmdMode = false;
       update_screen();
     }
-  } else if (button_states.btn2_re) {
-    if (head_index < uart_index - DISPLAY_LENGTH) {
-      head_index++;
-      update_screen();
+  } else {
+    if (button_states.btn1_re) {
+      if (mode == CURSOR) {
+        if (cursor_index != 0) {
+          cursor_index--;
+          update_screen();
+        } else if (head_index != 0) {
+          head_index--;
+          update_screen();
+        }
+      } else if (mode == SCROLL) {
+        if (head_index != 0) {
+          head_index--;
+          update_screen();
+        }
+      }
+    } else if (button_states.btn2_re) {
+
+      if (mode == CURSOR) {
+        if (cursor_index < DISPLAY_LENGTH - 1) {
+          cursor_index++;
+          update_screen();
+        } else if (head_index < uart_index - DISPLAY_LENGTH) {
+          head_index++;
+          update_screen();
+        }
+      } else if (mode == SCROLL) {
+        if (head_index < uart_index - DISPLAY_LENGTH) {
+          head_index++;
+          update_screen();
+        }
+      }
+    } else if (button_states.btn3_re) {
+    } else if (button_states.btn4_re) {
+      RC1IE = 0;
+
+      hide_cursor();
+
+      RCSTA1bits.SPEN = 0; // Serial Port Enable bit
+      TXSTA1bits.TXEN = 0; // Transmit Enable bit
+      RCSTA1bits.CREN = 0; // Continuous Receive Enable bit
+
+      returnToMenu();
     }
-  }
-  else if (button_states.btn3_re) {
-    clear_string();
-  }
-  else if (button_states.btn4_re) {
-    RC1IE = 0;
-
-    RCSTA1bits.SPEN = 0; // Serial Port Enable bit
-    TXSTA1bits.TXEN = 0; // Transmit Enable bit
-    RCSTA1bits.CREN = 0; // Continuous Receive Enable bit
-
-    returnToMenu();
   }
 }
 

@@ -76,8 +76,8 @@ static void hp_interrupt() {
         // Get duration from message array (offset by 1 to skip count)
         duration = message[index + (step + 1) / 2];
       } else {
-        drive_led(0b111111);       // Turn off LED for pause
-        duration = PBB; // Standard pause between beeps
+        drive_led(0b111111); // Turn off LED for pause
+        duration = PBB;      // Standard pause between beeps
       }
 
       // Move to next step
@@ -99,7 +99,7 @@ static void sos_init() {
   index = 0;
   step = 0;
 
-  lcd_show_string(1, "SOS SOS SOS SOS SOS");
+  lcd_show_string(1, "SOS SOS SOS SOS SOS", false);
 }
 
 static void sos_main(void) {

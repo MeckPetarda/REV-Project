@@ -3,11 +3,24 @@
 #define LCD_H
 
 #define DISPLAY_LENGTH 16
+#include <stdbool.h>
 
 void lcd_init(void);
-void lcd_show_string(char line, char a[]);
+void lcd_show_string(char lineNum, char textData[], bool endWithNullByte);
 static void lcd_send(unsigned char data);
 void lcd_clear(void);
 void lcd_reset(void);
+
+void shift_cursor_right(void);
+void shift_cursor_left(void);
+
+void show_cursor(void);
+void hide_cursor(void);
+
+void start_i2c_comunication(void);
+void stop_i2c_comunication(void);
+void send_instruction(unsigned char instruction);
+
+void set_cursor_position(int line, unsigned int position);
 
 #endif /* LCD_H */

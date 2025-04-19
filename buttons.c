@@ -34,7 +34,7 @@ typedef struct {
 volatile button_states_t button_states = {0};
 
 void buttons_interrupt(void) {
-  if (TMR2IF && TMR2IE) {      
+  if (TMR2IF && TMR2IE) {
     button_states.btn1_state <<= 1;
     button_states.btn1_state |= BTN1;
 
@@ -67,7 +67,7 @@ void buttons_interrupt(void) {
   }
 }
 
-void buttons_init(void) {  
+void buttons_init(void) {
   ANSELA = 0x00;
 
   TRISCbits.TRISC0 = 1; // btn1
@@ -84,11 +84,11 @@ void buttons_init(void) {
 
   TMR2IE = 1;
   TMR2IF = 0;
-  
+
   TMR2IP = 0;
 
   TMR2ON = 1;
-  
-  PEIE = 1;   // povoleni preruseni od periferii
-  GIE = 1;    // globalni povoleni preruseni
+
+  PEIE = 1; // povoleni preruseni od periferii
+  GIE = 1;  // globalni povoleni preruseni
 }
