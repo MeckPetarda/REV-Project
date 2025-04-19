@@ -10,14 +10,15 @@
     6:Prehravac hudby ? pwm
 **/
 
-#include "./per/buttons.h"
-#include "./per/lcd.h"
-#include "./per/led.h"
+#include "per/buttons.h"
+#include "per/lcd.h"
+#include "per/led.h"
 #include <stdbool.h>
 
 #include "menu.h"
 #include "programs/sos.h"
 #include "programs/uart.h"
+#include "programs/pwm_led.h"
 
 void __interrupt(low_priority) LP_ISR_HANDLER(void) {
   buttons_interrupt();
@@ -45,6 +46,7 @@ void init(void) {
 
   register_sos();
   register_uart();
+  register_pwm_led();
 
   lcd_init();
 }

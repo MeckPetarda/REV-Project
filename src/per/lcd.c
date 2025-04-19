@@ -85,6 +85,24 @@ void shift_cursor_right() {
   stop_i2c_comunication();
 }
 
+void set_number_of_lines(enum DisplayModes displayMode) {
+  start_i2c_comunication();
+
+  switch (displayMode) {
+  case ONE_ROW:
+    send_instruction(0b00110001);
+    break;
+  case TWO_ROWS:
+    send_instruction(0b00111001);
+    break;
+  case DOUBLE_HEIGHT:
+    send_instruction(0b00110101);
+    break;
+  };
+
+  stop_i2c_comunication();
+}
+
 void show_cursor() {
   start_i2c_comunication();
 

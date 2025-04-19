@@ -10,6 +10,7 @@
         <itemPath>src/programs/uart.h</itemPath>
         <itemPath>src/programs/template.h</itemPath>
         <itemPath>src/programs/sos.h</itemPath>
+        <itemPath>src/programs/pwm_led.h</itemPath>
       </logicalFolder>
       <itemPath>src/config.h</itemPath>
       <itemPath>src/menu.h</itemPath>
@@ -35,6 +36,7 @@
         <itemPath>src/programs/sos.c</itemPath>
         <itemPath>src/programs/uart.c</itemPath>
         <itemPath>src/programs/template.c</itemPath>
+        <itemPath>src/programs/pwm_led.c</itemPath>
       </logicalFolder>
       <itemPath>src/main.c</itemPath>
       <itemPath>src/menu.c</itemPath>
@@ -182,7 +184,6 @@
         <property key="event.recorder.debugger.behavior" value="Running"/>
         <property key="event.recorder.enabled" value="false"/>
         <property key="event.recorder.scvd.files" value=""/>
-        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>
@@ -285,7 +286,7 @@
         <property key="stack-size-high" value="auto"/>
         <property key="stack-size-low" value="auto"/>
         <property key="stack-size-main" value="auto"/>
-        <property key="stack-type" value="compiled"/>
+        <property key="stack-type" value="reentrant"/>
         <property key="user-pack-device-support" value=""/>
         <property key="wpo-lto" value="false"/>
       </XC8-config-global>
