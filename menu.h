@@ -2,17 +2,18 @@
 #define MENU_H
 
 /**
- * Structure to represent a subroutine with a label and function pointer
+ * Structure to represent a program with a label and function pointer
  */
-struct Subroutine {
+struct Program {
   char label[15];
-  void (*init_subroutine)(void);
-  void (*subroutine)(void);
+  void (*init)(void);
+  void (*destructor)(void);
+  void (*main)(void);
   void (*lp_interrupt)(void);
   void (*hp_interrupt)(void);
 };
 
-volatile struct Subroutine *activeSubroutine;
+volatile struct Program *activeProgram;
 
 /**
  * Initialize the menu state
@@ -20,24 +21,26 @@ volatile struct Subroutine *activeSubroutine;
 void initMenu(void);
 
 /**
- * Register a new subroutine in the menu
+ * Register a new program in the menu
  * @param label The label for the menu item
- * @param subroutine Function pointer to the subroutine
+ * @param program Function pointer to the program
+ * @param init Function pointer to the program init
+ * @param destructor Function pointer to the program destructor
  * @param lp_interrupt Function pointer to the low priority interrupt
  * @param hp_interrupt Function pointer to the high priority interrupt
  */
-void registerSubroutine(char label[14], void (*init_subroutine)(void),
-                        void (*subroutine)(void), void (*lp_interrupt)(void),
-                        void (*hp_interrupt)(void));
+void registerProgram(char label[14], void (*init)(void),
+                     void (*destructor)(void), void (*main)(void),
+                     void (*lp_interrupt)(void), void (*hp_interrupt)(void));
 
 void returnToMenu(void);
 
 /**
- * Confirm and set the selected subroutine as active
+ * Confirm and set the selected program as active
  */
-void confirmSubroutine(void);
+void confirmProgram(void);
 
-void launchSubroutine(int index);
+void launchProgram(int index);
 
 /**
  * Move to the next menu row
@@ -50,10 +53,10 @@ void nextRow(void);
 void previousRow(void);
 
 /**
- * Main menu handling subroutine
+ * Main menu handling program
  */
-void menuSubroutine(void);
+void menuProgram(void);
 
-void runSubroutine(void);
+void runProgram(void);
 
 #endif /* MENU_H */

@@ -8,9 +8,9 @@
       <itemPath>led.h</itemPath>
       <itemPath>lcd.h</itemPath>
       <itemPath>menu.h</itemPath>
-      <itemPath>sos.h</itemPath>
       <itemPath>config.h</itemPath>
-      <itemPath>uart.h</itemPath>
+      <itemPath>programs/sos.h</itemPath>
+      <itemPath>programs/uart.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -29,10 +29,13 @@
       <itemPath>led.c</itemPath>
       <itemPath>lcd.c</itemPath>
       <itemPath>menu.c</itemPath>
-      <itemPath>sos.c</itemPath>
-      <itemPath>uart.c</itemPath>
+      <itemPath>programs/sos.c</itemPath>
+      <itemPath>programs/uart.c</itemPath>
     </logicalFolder>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>programs</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="default" type="2">
@@ -170,6 +173,7 @@
         <property key="event.recorder.debugger.behavior" value="Running"/>
         <property key="event.recorder.enabled" value="false"/>
         <property key="event.recorder.scvd.files" value=""/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>

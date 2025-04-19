@@ -1,9 +1,9 @@
-#include "config.h"
+#include "../config.h"
 
-#include "buttons.h"
-#include "lcd.h"
-#include "led.h"
-#include "menu.h"
+#include "../buttons.h"
+#include "../lcd.h"
+#include "../led.h"
+#include "../menu.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -17,19 +17,10 @@ volatile int cursor_index = 0;
 volatile int head_index = 0;
 volatile int uart_index = 0;
 
-static void uart_init();
 static void awaitCommand();
-static void uart_main(void);
-static void lp_interrupt();
-static void hp_interrupt();
 
 void putch(char data);
 int getch(void);
-
-void register_uart(void) {
-  registerSubroutine("UART", &uart_init, &uart_main, &lp_interrupt,
-                     &hp_interrupt);
-}
 
 static void slice_str(const char *str, char *buffer, size_t start, size_t end) {
   size_t j = 0;
@@ -149,6 +140,16 @@ static void uart_init() {
   awaitCommand();
 }
 
+static void destructor() {
+  RC1IE = 0;
+
+  hide_cursor();
+
+  RCSTA1bits.SPEN = 0; // Serial Port Enable bit
+  TXSTA1bits.TXEN = 0; // Transmit Enable bit
+  RCSTA1bits.CREN = 0; // Continuous Receive Enable bit
+}
+
 static void uart_main(void) {
   // Cmd key is pressed
   if (cmdMode == false && button_states.btn3_re) {
@@ -209,15 +210,8 @@ static void uart_main(void) {
           update_screen();
         }
       }
-    } else if (button_states.btn3_re) {
+
     } else if (button_states.btn4_re) {
-      RC1IE = 0;
-
-      hide_cursor();
-
-      RCSTA1bits.SPEN = 0; // Serial Port Enable bit
-      TXSTA1bits.TXEN = 0; // Transmit Enable bit
-      RCSTA1bits.CREN = 0; // Continuous Receive Enable bit
 
       returnToMenu();
     }
@@ -234,4 +228,9 @@ int getch(void) {
   if (!RC1IF)
     return 0;
   return RCREG1;
+}
+
+void register_uart(void) {
+  registerProgram("UART", &uart_init, NULL, &uart_main, &lp_interrupt,
+                  &hp_interrupt);
 }

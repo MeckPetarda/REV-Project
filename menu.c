@@ -9,38 +9,39 @@
 #include <stdio.h>
 #include <string.h>
 
-#define SUBROUTINE_LIMIT 5
+#define PROGRAM_LIMIT 5
 
 volatile int numberOfRows = 0;
 volatile int selectedRow = 0;
 volatile int previousSelectedRow = 0;
 
-volatile struct Subroutine *activeSubroutine;
+volatile struct Program *activeProgram;
 
-struct Subroutine subroutines[SUBROUTINE_LIMIT]; // Array of actual structures
+struct Program programs[PROGRAM_LIMIT]; // Array of actual structures
 
 void initMenu(void) {
   numberOfRows = 0;
   selectedRow = 0;
   previousSelectedRow = -1;
 
-  activeSubroutine = NULL;
+  activeProgram = NULL;
 }
 
-void registerSubroutine(char label[14], void (*init_subroutine)(void),
-                        void (*subroutine)(void), void (*lp_interrupt)(void),
-                        void (*hp_interrupt)(void)) {
-  if (numberOfRows >= SUBROUTINE_LIMIT)
+void registerProgram(char label[14], void (*init)(void),
+                     void (*destructor)(void), void (*main)(void),
+                     void (*lp_interrupt)(void), void (*hp_interrupt)(void)) {
+  if (numberOfRows >= PROGRAM_LIMIT)
     return;
 
   // Directly modify the permanent structure
-  strncpy(subroutines[numberOfRows].label, label, 14);
-  subroutines[numberOfRows].label[14] = '\0';
+  strncpy(programs[numberOfRows].label, label, 14);
+  programs[numberOfRows].label[14] = '\0';
 
-  subroutines[numberOfRows].init_subroutine = init_subroutine;
-  subroutines[numberOfRows].subroutine = subroutine;
-  subroutines[numberOfRows].lp_interrupt = lp_interrupt;
-  subroutines[numberOfRows].hp_interrupt = hp_interrupt;
+  programs[numberOfRows].init = init;
+  programs[numberOfRows].main = main;
+  programs[numberOfRows].destructor = destructor;
+  programs[numberOfRows].lp_interrupt = lp_interrupt;
+  programs[numberOfRows].hp_interrupt = hp_interrupt;
 
   numberOfRows++;
 }
@@ -49,17 +50,21 @@ void returnToMenu() {
   selectedRow = 0;
   previousSelectedRow = -1;
 
-  activeSubroutine = NULL;
+  if (activeProgram != NULL && activeProgram->destructor != NULL) {
+    activeProgram->destructor();
+  }
+
+  activeProgram = NULL;
 }
 
-void launchSubroutine(int index) {
+void launchProgram(int index) {
   if (index >= 0 && index < numberOfRows) {
-    activeSubroutine = &subroutines[index];
-    activeSubroutine->init_subroutine();
+    activeProgram = &programs[index];
+    activeProgram->init();
   }
 }
 
-void confirmSubroutine(void) { launchSubroutine(selectedRow); }
+void confirmProgram(void) { launchProgram(selectedRow); }
 
 void nextRow(void) {
   if (selectedRow + 1 < numberOfRows) {
@@ -73,14 +78,14 @@ void previousRow(void) {
   }
 }
 
-void menuSubroutine(void) {
+void menuProgram(void) {
   // Handle button presses
   if (button_states.btn1_re)
     previousRow();
   else if (button_states.btn2_re)
     nextRow();
   else if (button_states.btn3_re)
-    confirmSubroutine();
+    confirmProgram();
 
   // Only update the display if the selection has changed
   if (selectedRow == previousSelectedRow)
@@ -96,7 +101,7 @@ void menuSubroutine(void) {
     line2[0] = '\0'; // Empty string
   } else if (numberOfRows == 1) {
     // Only one item
-    snprintf(line1, sizeof(line1), "> %s", subroutines[0].label);
+    snprintf(line1, sizeof(line1), "> %s", programs[0].label);
     line2[0] = '\0'; // Empty string
   } else {
     // Multiple items - determine which to show
@@ -108,13 +113,13 @@ void menuSubroutine(void) {
 
     // Format lines with selection indicator
     snprintf(line1, sizeof(line1), "%c %s", (topRow == selectedRow ? '>' : ' '),
-             subroutines[topRow].label);
+             programs[topRow].label);
 
     // Only show second line if there's an item to display
     if (topRow + 1 < numberOfRows) {
       snprintf(line2, sizeof(line2), "%c %s",
                (topRow + 1 == selectedRow ? '>' : ' '),
-               subroutines[topRow + 1].label);
+               programs[topRow + 1].label);
     } else {
       line2[0] = '\0'; // Empty string
     }
@@ -134,10 +139,10 @@ void menuSubroutine(void) {
   previousSelectedRow = selectedRow;
 }
 
-void runSubroutine(void) {
-  if (activeSubroutine == NULL) {
-    menuSubroutine();
+void runProgram(void) {
+  if (activeProgram == NULL) {
+    menuProgram();
   } else {
-    activeSubroutine->subroutine();
+    activeProgram->main();
   }
 }
