@@ -22,14 +22,14 @@
 #include "programs/uart.h"
 
 void __interrupt(low_priority) LP_ISR_HANDLER(void) {
-  buttons_interrupt();
-
   if (activeProgram != NULL && activeProgram->lp_interrupt != NULL) {
     activeProgram->lp_interrupt();
   }
 }
 
 void __interrupt(high_priority) HP_ISR_HANDLER(void) {
+  buttons_interrupt();
+
   if (activeProgram != NULL && activeProgram->hp_interrupt != NULL) {
     activeProgram->hp_interrupt();
   }

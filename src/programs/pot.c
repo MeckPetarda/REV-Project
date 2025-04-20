@@ -21,7 +21,7 @@ static void update_screen() {
   lcd_show_string(2, line2, false);
 }
 
-static void hp_interrupt() {
+static void lp_interrupt() {
   if (ADIE && ADIF) {
 
     long tmp = (ADRESH << 2) + (ADRESL >> 6);
@@ -46,8 +46,6 @@ static void hp_interrupt() {
   }
 }
 
-static void lp_interrupt() {}
-
 // RA5/AN4 - POT1
 // RE0/AN5 - POT2
 
@@ -56,8 +54,11 @@ static void init() {
   ANSELEbits.ANSE0 = 0;
 
   ADIE = 1; // Enable A/D interrupt
-  ADIP = 1; // A/D hight priority
+  ADIP = 0; // A/D hight priority
   ADIF = 0;
+
+  pot1 = -1;
+  pot2 = -1;
 
   ADCON2bits.ADFM = 0;     // left justified
   ADCON2bits.ADCS = 0b110; // Fosc/64
@@ -67,7 +68,6 @@ static void init() {
 }
 
 static void destructor(void) {
-  GODONE = 0;
   ADIE = 0;
   ADIF = 0;
 
@@ -76,14 +76,13 @@ static void destructor(void) {
 }
 
 static void main(void) {
-  GODONE = 1;
-
-  if (button_states.btn4_re) {
+  if (button_states.btn4_re || button_states.btn4_he) {
     returnToMenu();
   }
+
+  GODONE = 1;
 }
 
 void register_pot(void) {
-  registerProgram("POT", &init, &destructor, &main, &lp_interrupt,
-                  &hp_interrupt);
+  registerProgram("POT", &init, &destructor, &main, &lp_interrupt, NULL);
 }

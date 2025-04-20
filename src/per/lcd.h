@@ -23,7 +23,7 @@ void start_i2c_comunication(void);
 void stop_i2c_comunication(void);
 void send_instruction(unsigned char instruction);
 
-void set_cursor_position(int line, unsigned int position);
+void set_cursor_position(int line, char position);
 
 void set_number_of_lines(enum DisplayModes displayMode);
 

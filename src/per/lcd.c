@@ -46,7 +46,7 @@ void lcd_init(void) {
   __delay_ms(5);
 }
 
-void set_cursor_position(int line, unsigned int index) {
+void set_cursor_position(int line, char index) {
   unsigned int position = 0;
 
   if (line == 1) {
@@ -57,7 +57,7 @@ void set_cursor_position(int line, unsigned int index) {
 
   start_i2c_comunication();
 
-  send_instruction(0b10000000 | position); // Return home
+  send_instruction((char)(0b10000000 | position)); // Return home
 
   stop_i2c_comunication();
 }

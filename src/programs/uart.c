@@ -59,7 +59,7 @@ void update_screen() {
   lcd_show_string(2, line2, false);
 
   lcd_show_string(1, line1, true);
-  set_cursor_position(1, (unsigned int)cursor_index);
+  set_cursor_position(1, (char)cursor_index);
 }
 
 static void clear_string() {

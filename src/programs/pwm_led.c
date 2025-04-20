@@ -16,7 +16,7 @@
 
 #define NUMBER_OF_STATES 5
 
-volatile int DCs[NUMBER_OF_STATES] = {0x00, 0x32, 0x64, 0x96, 0xC8};
+volatile unsigned char DCs[NUMBER_OF_STATES] = {0x00, 0x32, 0x64, 0x96, 0xC8};
 volatile int index = 0;
 
 static void update_screen() {
