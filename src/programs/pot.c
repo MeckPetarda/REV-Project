@@ -14,10 +14,10 @@ static void update_screen() {
   char line1[17] = {0};
   char line2[17] = {0};
 
-  snprintf(line1, sizeof(line1), "POT1 %4ld", pot1);
+  snprintf(line1, sizeof(line1), "POT 1    %.3f V", pot1 / 1023.0 * 3.3);
   lcd_show_string(1, line1, false);
 
-  snprintf(line2, sizeof(line2), "POT2 %4ld", pot2);
+  snprintf(line2, sizeof(line2), "POT 2    %.3f V", pot2 / 1023.0 * 3.3);
   lcd_show_string(2, line2, false);
 }
 
