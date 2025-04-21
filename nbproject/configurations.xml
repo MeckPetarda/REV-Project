@@ -11,6 +11,7 @@
         <itemPath>src/programs/template.h</itemPath>
         <itemPath>src/programs/sos.h</itemPath>
         <itemPath>src/programs/pwm_led.h</itemPath>
+        <itemPath>src/programs/race.h</itemPath>
       </logicalFolder>
       <itemPath>src/config.h</itemPath>
       <itemPath>src/menu.h</itemPath>
@@ -38,6 +39,7 @@
         <itemPath>src/programs/template.c</itemPath>
         <itemPath>src/programs/pwm_led.c</itemPath>
         <itemPath>src/programs/pot.c</itemPath>
+        <itemPath>src/programs/race.c</itemPath>
       </logicalFolder>
       <itemPath>src/main.c</itemPath>
       <itemPath>src/menu.c</itemPath>

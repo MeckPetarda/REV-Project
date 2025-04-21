@@ -46,6 +46,57 @@ void lcd_init(void) {
   __delay_ms(5);
 }
 
+void write_text(int row, char index, char text[]) {
+  unsigned int position = 0;
+  unsigned char i = 0;
+
+  if (row == 1) {
+    position = 0x00 + index;
+  } else if (row == 2) {
+    position = 0x40 + index;
+  }
+
+  start_i2c_comunication();
+
+  send_instruction((char)(0b10000000 | position));
+
+  lcd_send(0x40);
+
+  for (i = index; i < 16; i++) {
+    if (text[i] == '\0') {
+      break;
+    }
+
+    lcd_send(text[i]);
+  }
+
+  stop_i2c_comunication();
+
+  __delay_ms(40);
+}
+
+void write_char(int row, char index, char character) {
+  unsigned int position = 0;
+
+  if (row == 1) {
+    position = 0x00 + index;
+  } else if (row == 2) {
+    position = 0x40 + index;
+  }
+
+  start_i2c_comunication();
+
+  send_instruction((char)(0b10000000 | position));
+
+  lcd_send(0x40);
+
+  lcd_send(character);
+
+  stop_i2c_comunication();
+
+  __delay_ms(40);
+}
+
 void set_cursor_position(int line, char index) {
   unsigned int position = 0;
 
@@ -57,30 +108,7 @@ void set_cursor_position(int line, char index) {
 
   start_i2c_comunication();
 
-  send_instruction((char)(0b10000000 | position)); // Return home
-
-  stop_i2c_comunication();
-}
-
-void shift_cursor_left() {
-  start_i2c_comunication();
-
-  send_instruction(0x38);       // function set
-  send_instruction(0b10001111); // Return home
-  send_instruction(0b00010000); // function set
-  send_instruction(0b00010000); // function set
-  send_instruction(0x39);       // function set
-
-  stop_i2c_comunication();
-}
-
-void shift_cursor_right() {
-
-  start_i2c_comunication();
-
-  send_instruction(0x38);       // function set
-  send_instruction(0b00010100); // function set
-  send_instruction(0x39);       // function set
+  send_instruction((char)(0b10000000 | position));
 
   stop_i2c_comunication();
 }
@@ -101,6 +129,8 @@ void set_number_of_lines(enum DisplayModes displayMode) {
   };
 
   stop_i2c_comunication();
+
+  __delay_ms(40);
 }
 
 void show_cursor() {
@@ -109,6 +139,8 @@ void show_cursor() {
   send_instruction(0b00001110);
 
   stop_i2c_comunication();
+
+  __delay_ms(40);
 }
 
 void hide_cursor() {
@@ -117,6 +149,8 @@ void hide_cursor() {
   send_instruction(0b00001100);
 
   stop_i2c_comunication();
+
+  __delay_ms(40);
 }
 
 void lcd_show_string(char lineNum, char textData[], bool endWithNullByte) {
@@ -169,6 +203,8 @@ void lcd_clear(void) {
   send_instruction(0x01); // Clear display
 
   stop_i2c_comunication();
+
+  __delay_ms(40);
 }
 
 void lcd_reset(void) {

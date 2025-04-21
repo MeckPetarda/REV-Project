@@ -18,6 +18,7 @@
 #include "menu.h"
 #include "programs/pot.h"
 #include "programs/pwm_led.h"
+#include "programs/race.h"
 #include "programs/sos.h"
 #include "programs/uart.h"
 
@@ -49,6 +50,7 @@ void init(void) {
   register_uart();
   register_pwm_led();
   register_pot();
+  register_race();
 
   lcd_init();
 }

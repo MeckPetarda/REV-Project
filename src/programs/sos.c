@@ -80,6 +80,7 @@ static void init() {
 
   index = 0;
   step = 0;
+  duration = 1000;
 
   lcd_show_string(1, "SOS             ", false);
 }
