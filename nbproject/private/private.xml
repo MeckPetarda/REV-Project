@@ -5,8 +5,12 @@
         <group>
             <file>file:/home/kuba/Documents/VUT/subjects/REV/finale/FinalniSolichani.X/src/main.c</file>
             <file>file:/home/kuba/Documents/VUT/subjects/REV/finale/FinalniSolichani.X/src/programs/pwm_led.c</file>
+            <file>file:/home/kuba/Documents/VUT/subjects/REV/finale/FinalniSolichani.X/src/programs/race.c</file>
             <file>file:/home/kuba/Documents/VUT/subjects/REV/finale/FinalniSolichani.X/src/programs/pot.c</file>
+            <file>file:/home/kuba/Documents/VUT/subjects/REV/finale/FinalniSolichani.X/src/per/lcd.c</file>
+            <file>file:/home/kuba/Documents/VUT/subjects/REV/finale/FinalniSolichani.X/src/programs/uart.c</file>
             <file>file:/home/kuba/Documents/VUT/subjects/REV/finale/FinalniSolichani.X/src/per/lcd.h</file>
+            <file>file:/home/kuba/Documents/VUT/subjects/REV/finale/FinalniSolichani.X/src/programs/race.h</file>
         </group>
     </open-files>
 </project-private>
