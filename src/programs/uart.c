@@ -124,7 +124,7 @@ static void uart_init() {
   RC1IE = 1; // zap  preruseni od RCREG
 
   // Configure baudrate
-  SPBRG1 = 51; // (32_000_000 / (64 * 9600)) - 1
+  SPBRG1 = 25; // (32_000_000 / (64 * 19200)) - 1
 
   TXSTA1bits.SYNC = 0; // EUSART Mode Select bit - ASYNC
   RCSTA1bits.SPEN = 1; // Serial Port Enable bit
