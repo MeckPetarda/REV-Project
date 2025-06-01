@@ -13,14 +13,15 @@
 #define DAC_SS LATBbits.LATB3       // DAC slave select pin
 #define DAC_CH1 0b00110000          // channel 1/B
 
-// Sine wave lookup table (0-255 values for 8-bit DAC)
-// 256 samples for one complete sine wave cycle - much higher resolution
-#define SINE_TABLE_SIZE 256
+// Sine wave lookup table (0-127 values for 8-bit DAC)
+// 128 samples for HALF sine wave cycle - using symmetry to save memory
+#define SINE_TABLE_SIZE 128
+#define FULL_CYCLE_SIZE 256  // Virtual full cycle size
 #define DAC_MAX 255
 #define DAC_MIN 0
 #define DAC_MEAN 127
 
-volatile unsigned char sine_table[SINE_TABLE_SIZE];
+volatile unsigned char sine_table[SINE_TABLE_SIZE];  // Only store half cycle
 volatile int sine_index = 0;
 
 volatile long pot1 = 0;  // Lower clipping control
@@ -47,10 +48,36 @@ volatile unsigned int scaled_adc_reading = 0;  // Software-scaled version
 
 static void generate_sine_table() {
     for (int i = 0; i < SINE_TABLE_SIZE; i++) {
-        // Generate high-resolution sine wave values from 0 to 255
-        // Using double precision for better accuracy
-        double angle = (2.0 * 3.14159265359 * i) / SINE_TABLE_SIZE;
+        // Generate only the first half of sine wave (0 to π)
+        // Store as positive values (127 to 255) for the first half
+        double angle = (3.14159265359 * i) / SINE_TABLE_SIZE;  // 0 to π
         sine_table[i] = (unsigned char)(127.5 + 127.5 * sin(angle));
+    }
+}
+
+static unsigned char get_sine_value(int index) {
+    // Use symmetry to get full sine wave from half-wave table
+    if (index < SINE_TABLE_SIZE) {
+        // First half: 0 to π (positive half of sine wave)
+        return sine_table[index];
+    } else {
+        // Second half: π to 2π (negative half of sine wave)
+        // Mirror the index and flip the sign
+        int mirror_index = index - SINE_TABLE_SIZE;  // 0 to 127 for second half
+        unsigned char positive_value = sine_table[mirror_index];
+        
+        // Flip the sign around the center (127) with proper bounds checking
+        int amplitude = (int)positive_value - (int)DAC_MEAN;  // Get signed amplitude
+        int negative_result = (int)DAC_MEAN - amplitude;      // Flip it
+        
+        // Clamp to valid DAC range to prevent underflow/overflow
+        if (negative_result < DAC_MIN) {
+            return DAC_MIN;
+        } else if (negative_result > DAC_MAX) {
+            return DAC_MAX;
+        } else {
+            return (unsigned char)negative_result;
+        }
     }
 }
 
@@ -112,8 +139,8 @@ static void SPIWrite(unsigned char channel, unsigned char data) {
 static void hp_interrupt() {
     // Timer interrupt for sine wave generation
     if (TMR1IE && TMR1IF) {
-        // Get the current sine value
-        unsigned char raw_sine = sine_table[sine_index];
+        // Get the current sine value using symmetry
+        unsigned char raw_sine = get_sine_value(sine_index);
         
         // Apply clipping
         unsigned char clipped_sine = apply_clipping(raw_sine);
@@ -128,9 +155,9 @@ static void hp_interrupt() {
             send_uart_data = true;
         }
         
-        // Move to next sine table entry
+        // Move to next sine table entry (full cycle)
         sine_index++;
-        if (sine_index >= SINE_TABLE_SIZE) {
+        if (sine_index >= FULL_CYCLE_SIZE) {
             sine_index = 0;
         }
         
