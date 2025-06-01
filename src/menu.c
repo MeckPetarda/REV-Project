@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define PROGRAM_LIMIT 5
+#define PROGRAM_LIMIT 10
 
 volatile int numberOfRows = 0;
 volatile int selectedRow = 0;

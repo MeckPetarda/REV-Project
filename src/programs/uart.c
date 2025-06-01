@@ -4,6 +4,7 @@
 #include "../per/buttons.h"
 #include "../per/lcd.h"
 #include "../per/led.h"
+#include "../per/uart_common.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -18,9 +19,6 @@ volatile int head_index = 0;
 volatile int uart_index = 0;
 
 static void awaitCommand();
-
-void putch(char data);
-int getch(void);
 
 static void slice_str(const char *str, char *buffer, size_t start, size_t end) {
   size_t j = 0;
@@ -115,7 +113,6 @@ static void uart_init() {
   msg[0] = '\0';
   mode = SCROLL;
 
-  // TRISD = 0x00;           // PORTD jako vystup
   TRISCbits.TRISC6 = 1; // TX pin jako vstup
   TRISCbits.TRISC7 = 1; // rx pin jako vstup
 
@@ -216,18 +213,6 @@ static void uart_main(void) {
       returnToMenu();
     }
   }
-}
-
-void putch(char data) {
-  while (!TX1IF)
-    ;
-  TXREG1 = data;
-}
-
-int getch(void) {
-  if (!RC1IF)
-    return 0;
-  return RCREG1;
 }
 
 void register_uart(void) {

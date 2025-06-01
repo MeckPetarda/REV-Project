@@ -21,6 +21,7 @@
 #include "programs/race.h"
 #include "programs/sos.h"
 #include "programs/uart.h"
+#include "programs/dac.h"
 
 void __interrupt(low_priority) LP_ISR_HANDLER(void) {
   if (activeProgram != NULL && activeProgram->lp_interrupt != NULL) {
@@ -50,6 +51,7 @@ void init(void) {
   register_uart();
   register_pwm_led();
   register_pot();
+  register_dac();
   register_race();
 
   lcd_init();
