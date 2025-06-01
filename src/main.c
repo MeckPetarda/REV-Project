@@ -22,6 +22,7 @@
 #include "programs/sos.h"
 #include "programs/uart.h"
 #include "programs/dac.h"
+#include "programs/hw.h"
 
 void __interrupt(low_priority) LP_ISR_HANDLER(void) {
   if (activeProgram != NULL && activeProgram->lp_interrupt != NULL) {
@@ -53,6 +54,7 @@ void init(void) {
   register_pot();
   register_dac();
   register_race();
+  register_hw();
 
   lcd_init();
 }

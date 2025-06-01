@@ -15,6 +15,8 @@
 ├── programs
 │   ├── dac.c
 │   ├── dac.h
+│   ├── hw.c
+│   ├── hw.h
 │   ├── pot.c
 │   ├── pot.h
 │   ├── pwm_led.c
@@ -29,4 +31,4 @@
 │   └── uart.h
 └── project_structure
 
-3 directories, 27 files
+3 directories, 29 files

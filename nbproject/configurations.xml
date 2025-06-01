@@ -17,6 +17,7 @@
         <itemPath>src/programs/pwm_led.h</itemPath>
         <itemPath>src/programs/race.h</itemPath>
         <itemPath>src/programs/dac.h</itemPath>
+        <itemPath>src/programs/hw.h</itemPath>
       </logicalFolder>
       <itemPath>src/config.h</itemPath>
       <itemPath>src/menu.h</itemPath>
@@ -47,6 +48,7 @@
         <itemPath>src/programs/pot.c</itemPath>
         <itemPath>src/programs/race.c</itemPath>
         <itemPath>src/programs/dac.c</itemPath>
+        <itemPath>src/programs/hw.c</itemPath>
       </logicalFolder>
       <itemPath>src/main.c</itemPath>
       <itemPath>src/menu.c</itemPath>
